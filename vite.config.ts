@@ -6,6 +6,7 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import { defineConfig, lazyPlugins } from 'vite-plus';
+import flowbiteReact from "flowbite-react/plugin/vite";
 
 export default defineConfig({
     plugins: lazyPlugins(() => [
@@ -27,6 +28,7 @@ export default defineConfig({
         wayfinder({
             formVariants: true,
         }),
+        flowbiteReact(),
     ]),
     server: {
         watch: {
