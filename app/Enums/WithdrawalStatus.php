@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Enums;
+
+/**
+ * Status pencairan hasil jual.
+ */
+enum WithdrawalStatus: string
+{
+    case Pending = 'pending';
+    case Approved = 'approved';
+    case Rejected = 'rejected';
+    case Paid = 'paid';
+
+    /**
+     * Get the human readable label.
+     */
+    public function label(): string
+    {
+        return match ($this) {
+            self::Pending => 'Menunggu Verifikasi',
+            self::Approved => 'Disetujui',
+            self::Rejected => 'Ditolak',
+            self::Paid => 'Sudah Ditransfer',
+        };
+    }
+
+    /**
+     * Get all enum values.
+     *
+     * @return array<int, string>
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+}
