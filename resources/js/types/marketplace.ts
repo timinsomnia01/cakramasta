@@ -185,3 +185,32 @@ export type FormProduct = {
         is_active: boolean;
     }[];
 };
+
+export type Category = {
+    id: number;
+    name: string;
+    slug: string;
+    description: string | null;
+    image: string | null;
+    productCount: number;
+    href: string;
+};
+
+export type ProductCard = {
+    id: number;
+    name: string;
+    slug: string;
+    price: number;
+    hasVariants: boolean;
+    image: string | null;
+    rating: number | null;
+    reviewsCount: number;
+    soldCount: number;
+    category: {
+        name: string;
+        slug: string;
+    };
+    storeName: string | null;
+    href: string;
+};
+
