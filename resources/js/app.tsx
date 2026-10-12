@@ -13,6 +13,13 @@ void createInertiaApp({
     layout: (name) => {
         switch (true) {
             case name === 'welcome':
+            case name === 'home':
+            case name === 'cart/index':
+            case name === 'checkout/create':
+            case name === 'search/index':
+            case name.startsWith('categories/'):
+            case name.startsWith('products/'):
+            case name === 'pages/show':
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;
