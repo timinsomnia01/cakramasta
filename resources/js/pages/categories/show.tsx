@@ -44,7 +44,7 @@ export default function CategoryShow({ category, subCategories, activeSub, filte
                                     href={subHref(sub.slug)}
                                     className={cn(
                                         'flex items-center justify-between gap-3 rounded-md border px-3 py-1.5 text-sm md:border-0',
-                                        (activeSub ?? null) === sub.slug ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
+                                        (activeSub ?? null) === sub.slug ? 'bg-[#120060] text-primary-foreground' : 'hover:bg-[#120060] hover:text-white',
                                     )}
                                 >
                                     <span className="whitespace-nowrap">{sub.name}</span>

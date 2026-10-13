@@ -1,11 +1,11 @@
 import { Link } from '@inertiajs/react';
-import { Search, X } from 'lucide-react';
+import { ImageOff, Search, X } from 'lucide-react'; // Tambahkan ImageOff di sini
 import type { ReactNode } from 'react';
 import { NativeSelect } from '@/components/marketplace/native-select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ProductCard, type ProductCardData } from '@/components/store/product-card';
-import { formatNumber } from '@/lib/format';
+import { formatNumber, formatRupiah } from '@/lib/format'; // Tambahkan formatRupiah di sini
 import type { Paginated } from '@/types';
 
 export const SORT_LABELS: Record<string, string> = {
@@ -91,13 +91,55 @@ export function ProductGrid({ products }: { products: Paginated<ProductCardData>
     return (
         <div className="space-y-4">
             <p className="text-sm text-muted-foreground">{formatNumber(products.total)} produk</p>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+
+            {/* Grid Produk dengan Styling ala Top Products */}
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {products.data.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <Link
+                        key={product.id}
+                        href={product.href}
+                        className="group flex h-full flex-col overflow-hidden rounded-[13px] border border-[#cfd4df] bg-white transition-transform duration-300 hover:-translate-y-1"
+                    >
+                        {/* Gambar Produk dengan Aspect Ratio 4:3 */}
+                        <div className="aspect-[4/3] w-full shrink-0 overflow-hidden bg-[#F8F9FA]">
+                            {product.image ? (
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    loading="lazy"
+                                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                            ) : (
+                                <div className="flex size-full items-center justify-center text-muted-foreground">
+                                    <ImageOff className="size-8" aria-hidden />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Konten Kartu (Judul, Harga Badge Hijau, Kategori/Store) */}
+                        <div className="flex flex-1 flex-col p-4">
+                            <div className="mb-2 flex items-start justify-between gap-2">
+                                <h3 className="line-clamp-2 flex-1 font-bold text-[#0242C6]">
+                                    {product.name}
+                                </h3>
+                                <span className="shrink-0 rounded-full bg-[#D3EDBC] px-2.5 py-1 text-[11px] font-bold text-[#012060]">
+                                    {formatRupiah(product.price)}
+                                </span>
+                            </div>
+
+                            {/* Informasi Tambahan (Kategori / Toko) */}
+                            <div className="mt-auto pt-2 text-xs text-neutral-500 space-y-1">
+                                <p className="truncate">{product.category.name}</p>
+                                {product.storeName && <p className="truncate">{product.storeName}</p>}
+                            </div>
+                        </div>
+                    </Link>
                 ))}
             </div>
+
+            {/* Paginasi */}
             {products.last_page > 1 && (
-                <div className="flex items-center justify-center gap-3 pt-2 text-sm">
+                <div className="flex items-center justify-center gap-3 pt-4 text-sm">
                     <Button asChild={!!products.prev_page_url} variant="outline" size="sm" disabled={!products.prev_page_url}>
                         {products.prev_page_url ? <Link href={products.prev_page_url}>Sebelumnya</Link> : <span>Sebelumnya</span>}
                     </Button>
