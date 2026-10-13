@@ -34,8 +34,8 @@ export function StoreNavbar({ initialQuery = '' }: StoreNavbarProps) {
     }, []);
 
     return (
-        <header className="sticky top-0 z-30 bg-[#012060] shadow-md">
-            <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6">
+        <header className="fixed top-0 left-0 right-0 z-30 bg-[#012060] shadow-md">
+            <div className="mx-auto flex w-[90%] max-w-[2000px] items-center gap-3 py-3">
                 {/* Brand */}
                 <Link
                     href="/"
@@ -145,25 +145,25 @@ export function StoreNavbar({ initialQuery = '' }: StoreNavbarProps) {
                                 </button>
 
                                 {/* Dropdown panel */}
-                                {authOpen && (
-                                    <div className="absolute right-0 top-full mt-2 w-40 overflow-hidden rounded-xl border border-white/20 bg-[#012060] shadow-xl">
-                                        <Link
-                                            href="/login"
-                                            onClick={() => setAuthOpen(false)}
-                                            className="flex items-center gap-2 px-4 py-3 text-sm text-white transition hover:bg-white/10"
-                                        >
-                                            Masuk
-                                        </Link>
-                                        <div className="mx-4 h-px bg-white/10" />
-                                        <Link
-                                            href="/register"
-                                            onClick={() => setAuthOpen(false)}
-                                            className="flex items-center gap-2 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                                        >
-                                            Daftar
-                                        </Link>
-                                    </div>
-                                )}
+                                    {authOpen && (
+                                        <div className="absolute right-0 top-full mt-2 w-40 rounded-xl border border-white/20 bg-[#012060] shadow-2xl z-50">
+                                            <Link
+                                                href="/login"
+                                                onClick={() => setAuthOpen(false)}
+                                                className="block px-4 py-3 text-sm text-white transition hover:bg-white/10 rounded-t-xl"
+                                            >
+                                                Masuk
+                                            </Link>
+                                            <div className="mx-4 h-px bg-white/10" />
+                                            <Link
+                                                href="/register"
+                                                onClick={() => setAuthOpen(false)}
+                                                className="block px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10 rounded-b-xl"
+                                            >
+                                                Daftar
+                                            </Link>
+                                        </div>
+                                    )}
                             </div>
                         </>
                     )}
