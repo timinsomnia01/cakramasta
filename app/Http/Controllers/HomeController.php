@@ -26,7 +26,42 @@ class HomeController extends Controller
                 ->get()
                 ->map(fn (Product $product) => ProductPresenter::card($product))
                 ->values(),
+
+            // 1. TAMBAHKAN BARIS INI UNTUK MENGIRIM DATA topProducts
+            'topProducts' => $this->topProducts(),
         ]);
+    }
+
+    /**
+     * Mengambil 3 produk teratas untuk section Top Products.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function topProducts(): array
+    {
+        // Anda bisa mengubah logika sorting-nya (misal: orderBy('sold_count', 'desc')
+        // atau orderBy('views', 'desc')) sesuai dengan definisi "Top" di database Anda.
+        return Product::query()
+            ->approved()
+            ->where('stock', '>', 0)
+            ->inRandomOrder() // Contoh: ambil acak untuk saat ini. Silakan ubah sesuai kebutuhan bisnis.
+            ->limit(3)
+            ->get()
+            ->map(function (Product $product) {
+                // Pastikan format ini persis dengan tipe TopProductData di React
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'slug' => $product->slug,
+                    'price' => $product->price,
+                    // Pastikan field description ditarik agar bisa muncul di desain baru
+                    'description' => $product->description,
+                    // Jika Anda menggunakan Presenter/Accessor untuk URL gambar, sesuaikan kodenya (misal: $product->image_url)
+                    'image' => $product->image ?? '/images/placeholder.webp',
+                ];
+            })
+            ->values()
+            ->all();
     }
 
     /**
