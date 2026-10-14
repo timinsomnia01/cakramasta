@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
-import { ImageOff, Star } from 'lucide-react';
-import { formatNumber, formatRupiah } from '@/lib/format';
+import { ImageOff } from 'lucide-react';
+import { formatRupiah } from '@/lib/format';
 
 export type ProductCardData = {
     id: number;
@@ -15,21 +15,23 @@ export type ProductCardData = {
     category: { name: string; slug: string };
     storeName: string | null;
     href: string;
+    description: string;
 };
 
 export function ProductCard({ product }: { product: ProductCardData }) {
     return (
         <Link
             href={product.href}
-            className="group flex h-full min-w-0 flex-col overflow-hidden rounded-xl border bg-card transition-shadow hover:shadow-md"
+            className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl bg-white transition-shadow hover:shadow-md border border-gray-100"
         >
-            <div className="aspect-square overflow-hidden bg-muted">
+            {/* Bagian Gambar: Diubah dari aspect-square menjadi aspect-[4/3] agar lebih pendek */}
+            <div className="aspect-[4/3] w-full overflow-hidden bg-[#F8F9FA]">
                 {product.image ? (
                     <img
                         src={product.image}
                         alt={product.name}
                         loading="lazy"
-                        className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                 ) : (
                     <div className="flex size-full items-center justify-center text-muted-foreground">
@@ -37,25 +39,26 @@ export function ProductCard({ product }: { product: ProductCardData }) {
                     </div>
                 )}
             </div>
-            <div className="flex flex-1 flex-col gap-1 p-3">
-                <p className="text-xs text-muted-foreground">{product.category.name}</p>
-                <h3 className="line-clamp-2 text-sm leading-snug font-medium">{product.name}</h3>
-                <p className="mt-auto pt-1 text-base font-semibold">
-                    {product.hasVariants && (
-                        <span className="mr-1 text-xs font-normal text-muted-foreground">mulai</span>
-                    )}
-                    {formatRupiah(product.price)}
-                </p>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    {product.rating !== null && (
-                        <span className="inline-flex items-center gap-0.5">
-                            <Star className="size-3 fill-amber-400 text-amber-400" aria-hidden />
-                            {product.rating}
-                        </span>
-                    )}
-                    <span>Terjual {formatNumber(product.soldCount)}</span>
+
+            {/* Bagian Konten */}
+            <div className="flex flex-1 flex-col p-4">
+                {/* Baris Badge: Kategori & Harga */}
+                <div className="mb-3 flex flex-wrap items-center justify-end gap-2">
+                    <span className="shrink-0 rounded-full border border-[#0ea5e9] px-3 py-0.5 text-[11px] font-semibold text-[#0ea5e9]">
+                        {product.category.name}
+                    </span>
+                    <span className="shrink-0 rounded-full bg-[#D3EDBC] px-3 py-0.5 text-[11px] font-bold text-[#012060]">
+                        {formatRupiah(product.price)}
+                    </span>
                 </div>
-                {product.storeName && <p className="truncate text-xs text-muted-foreground">{product.storeName}</p>}
+
+                {/* Judul & Teks Dummy */}
+                <h3 className="line-clamp-2 text-sm font-bold text-[#012060]">
+                    {product.name}
+                </h3>
+                <p className="mt-2 text-xs leading-relaxed text-neutral-400 line-clamp-2">
+                    {product.description}
+                </p>
             </div>
         </Link>
     );

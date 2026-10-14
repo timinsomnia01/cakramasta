@@ -23,6 +23,7 @@ class CatalogFilterRequest extends FormRequest
             'min_price' => ['nullable', 'integer', 'min:0'],
             'max_price' => ['nullable', 'integer', 'min:0'],
             'sort' => ['nullable', Rule::in(FilterProducts::SORTS)],
+            'rating' => ['nullable', 'integer', 'min:1', 'max:5'],
         ];
     }
 }
