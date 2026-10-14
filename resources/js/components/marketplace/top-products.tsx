@@ -1,3 +1,4 @@
+import categories from '@/routes/categories';
 import { Link } from '@inertiajs/react';
 
 export type TopProductData = {
@@ -7,6 +8,7 @@ export type TopProductData = {
     price: number;
     description: string;
     image: string;
+    category: { slug: string };
 };
 
 type Props = {
@@ -61,7 +63,7 @@ export default function TopProducts({ products }: Props) {
                         {previewProducts.map((product) => (
                             <Link
                                 key={product.id}
-                                href={`/produk/${product.slug}`}
+                                href={`/kategori/${product.category.slug}/produk/${product.slug}`}
                                 className="group w-[200px] shrink-0 snap-center rounded-[13px] border border-[#cfd4df] bg-white transition-transform duration-300 hover:-translate-y-1 md:w-auto"
                             >
                                 <div className="aspect-[4/3] w-full overflow-hidden rounded-t-[13px] bg-[#F8F9FA]">
