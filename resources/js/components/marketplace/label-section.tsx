@@ -7,7 +7,7 @@ type LabelSectionProps = {
 
 export default function LabelSection({ title, icon }: LabelSectionProps) {
     return (
-        <div className="inline-flex items-center rounded-[4px] border border-white bg-gradient-to-br from-[#0242c6] to-[#012060] pr-3 text-white shadow-sm transition-all duration-200 md:pr-4">
+        <div className="inline-flex items-center rounded-[4px] border border-white bg-gradient-to-r from-[#0C8CE9] to-[#022878] pr-3 text-white shadow-sm transition-all duration-200 md:pr-4">
             {/* Kotak Ikon di Kiri */}
             <div className="flex size-[44px] shrink-0 items-center justify-center rounded-l-[3px] bg-[#012060] p-2.5 sm:size-[52px] md:size-[60px] md:p-3">
                 {icon || (
