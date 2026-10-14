@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
+@import '@fontsource-variable/albert-sans';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -17,6 +18,15 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
+    --color-um-navy: #012060;
+    --color-um-blue: #0242c6;
+    --color-um-grey: #cfd4df;
+    --color-um-yellow: #fff500;
+    --color-um-gold: #ffd400;
+    --color-um-green: #cbdb2a;
+}
+
+@theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
 
@@ -142,4 +152,51 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+/* Tema brand UM 2026, hanya aktif di dalam .um-theme */
+.um-theme {
+    font-family: 'Albert Sans Variable', 'Albert Sans', ui-sans-serif, system-ui, sans-serif;
+    color-scheme: light;
+
+    /* radius guideline: 4px (card kecil, tombol), 13px (card besar) */
+    --radius-sm: 4px;
+    --radius-md: 4px;
+    --radius-lg: 4px;
+    --radius-xl: 13px;
+
+    --background: #f6f6f2;
+    --foreground: #012060;
+    --card: #ffffff;
+    --card-foreground: #012060;
+    --popover: #ffffff;
+    --popover-foreground: #012060;
+    --primary: #012060;
+    --primary-foreground: #ffffff;
+    --secondary: #cfd4df;
+    --secondary-foreground: #012060;
+    --muted: #e9ebf1;
+    --muted-foreground: #56638a;
+    --accent: #cfd4df;
+    --accent-foreground: #012060;
+    --border: #cfd4df;
+    --input: #cfd4df;
+    --ring: #0242c6;
+}
+
+/* Label section: 28px desktop, 22px tablet, 16px HP, gradien 135deg di atas putih */
+.um-label {
+    width: fit-content;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #0242c6, #012060);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+@media (min-width: 768px) {
+    .um-label { font-size: 22px; }
+}
+@media (min-width: 1024px) {
+    .um-label { font-size: 28px; }
 }
