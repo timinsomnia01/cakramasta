@@ -1,10 +1,14 @@
 import { Head, Link } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import BannerCarousel from '@/components/marketplace/banner-carousel';
+import TopProducts, { type TopProductData } from '@/components/marketplace/top-products';
+import { CategoriesSection } from '@/components/store/categories';
 import { StoreLayout } from '@/components/store/store-layout';
 import { ProductCard, type ProductCardData } from '@/components/store/product-card';
 import { Button } from '@/components/ui/button';
 import { formatNumber } from '@/lib/format';
+import LabelSection from '@/components/marketplace/label-section';
 
 type CategoryItem = {
     id: number;
@@ -20,6 +24,7 @@ type Props = {
     dailyProducts: ProductCardData[];
     categories: CategoryItem[];
     newProducts: ProductCardData[];
+    topProducts: TopProductData[];
 };
 
 function Section({ title, action, children }: { title: string; action?: React.ReactNode; children: React.ReactNode }) {
@@ -34,15 +39,28 @@ function Section({ title, action, children }: { title: string; action?: React.Re
     );
 }
 
-export default function Home({ dailyProducts, categories, newProducts }: Props) {
+export default function Home({ dailyProducts, categories, newProducts, topProducts }: Props) {
     const track = useRef<HTMLDivElement>(null);
     const scroll = (direction: 1 | -1) =>
         track.current?.scrollBy({ left: direction * track.current.clientWidth * 0.8, behavior: 'smooth' });
 
+    // Paksa mode terang untuk halaman publik
+    useEffect(() => {
+        document.documentElement.classList.remove('dark');
+    }, []);
+
     return (
         <StoreLayout>
             <Head title="Beranda" />
-            <div className="space-y-10">
+            {/* Banner carousel – ditampilkan sebelum konten utama */}
+            <div className="-mx-4 -mt-6 sm:-mx-4">
+                <BannerCarousel />
+            </div>
+            <div className="mb-10">
+                <TopProducts products={topProducts} />
+            </div>
+            <CategoriesSection categories={categories} />
+            {/* <div className="space-y-10">
                 {dailyProducts.length > 0 && (
                     <Section
                         title="Pilihan hari ini"
@@ -103,7 +121,7 @@ export default function Home({ dailyProducts, categories, newProducts }: Props) 
                         </div>
                     )}
                 </Section>
-            </div>
+            </div> */}
         </StoreLayout>
     );
 }

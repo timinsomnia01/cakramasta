@@ -14,13 +14,27 @@ use Inertia\Response;
 
 class CategoryController extends Controller
 {
-    /**
+/**
      * Seluruh kategori utama dalam bentuk kartu.
      */
     public function index(): Response
     {
+        $categories = Category::query()
+            ->root()
+            ->active()
+            ->orderBy('sort_order')
+            ->get()
+            ->map(fn (Category $category) => [
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'description' => $category->description,
+                'image' => ProductPresenter::imageUrl($category->image),
+                'href' => route('categories.show', $category->slug),
+            ]);
+
         return Inertia::render('categories/index', [
-            'categories' => CategoryPresenter::roots(),
+            'categories' => $categories,
         ]);
     }
 
