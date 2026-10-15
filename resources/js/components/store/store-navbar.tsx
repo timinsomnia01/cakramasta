@@ -106,7 +106,7 @@ export function StoreNavbar({ initialQuery = '' }: StoreNavbarProps) {
                             asChild
                             className="text-white hover:bg-white/10 hover:text-white"
                         >
-                            <Link href="/dashboard">
+                            <Link href="/admin">
                                 <UserCircle className="size-4" />
                                 <span className="ml-1 hidden sm:inline">Akun</span>
                             </Link>

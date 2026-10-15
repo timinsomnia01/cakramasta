@@ -40,7 +40,15 @@ class FilterProducts
             'termahal' => $query->orderByDesc('products.price'),
             default => null,
         };
+        if (!empty($filters['rating'])) {
+            // Karena ProductPresenter::cardQuery() biasanya sudah menggunakan withAvg('reviews', 'rating')
+            // kita bisa menggunakan having() pada query.
+            $rating = (int) $filters['rating'];
 
+            // Memfilter produk yang rata-rata rating-nya sama dengan atau lebih besar dari rating yang dipilih
+            // (Atau jika Anda mau tepat sama, gunakan '=')
+            $query->having('reviews_avg_rating', '>=', $rating);
+        }
         return $query->orderByDesc('products.id');
     }
 }

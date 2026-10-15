@@ -92,6 +92,7 @@ class CategoryController extends Controller
                 'min_price' => $filters['min_price'] ?? null,
                 'max_price' => $filters['max_price'] ?? null,
                 'sort' => $filters['sort'] ?? 'terbaru',
+                'rating' => $filters['rating'] ?? null,
             ],
             'sorts' => FilterProducts::SORTS,
             'products' => $query->paginate(12)

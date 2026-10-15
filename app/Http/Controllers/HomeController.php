@@ -58,6 +58,9 @@ class HomeController extends Controller
                     'description' => $product->description,
                     // Jika Anda menggunakan Presenter/Accessor untuk URL gambar, sesuaikan kodenya (misal: $product->image_url)
                     'image' => $product->image ?? '/images/placeholder.webp',
+                    'category' => [
+                        'slug' => $product->category ? $product->category->slug : 'umum',
+                    ]
                 ];
             })
             ->values()

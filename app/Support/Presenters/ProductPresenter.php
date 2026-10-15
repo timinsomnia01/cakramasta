@@ -40,6 +40,7 @@ class ProductPresenter
             'name' => $product->name,
             'slug' => $product->slug,
             'price' => $product->price,
+            'description' => $product->description,
             'hasVariants' => ($product->variants_count ?? 0) > 0,
             'image' => self::imageUrl($product->primaryImage?->path),
             'rating' => isset($product->reviews_avg_rating) ? round((float) $product->reviews_avg_rating, 1) : null,
