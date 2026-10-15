@@ -28,6 +28,38 @@ export default function CategoryShow({ category, subCategories, activeSub, filte
         return qs ? `${base}?${qs}` : base;
     };
 
+    // Daftar rentang harga sesuai desain
+    const priceRanges = [
+        { label: '0 - 75RB', min: 0, max: 75000 },
+        { label: '75RB - 150RB', min: 75000, max: 150000 },
+        { label: '150RB - 200RB', min: 150000, max: 200000 },
+        { label: 'More than 200RB', min: 200000, max: null },
+    ];
+
+    // ACTION: Handle klik pada tombol Price
+    const handlePriceCheck = (min: number | null, max: number | null) => {
+        const query = new URLSearchParams(window.location.search);
+
+        // Cek apakah tombol yang diklik adalah tombol yang sedang aktif
+        const currentMin = filters.min_price;
+        const currentMax = filters.max_price;
+        const isMatch = currentMin == min && currentMax == max;
+
+        if (isMatch) {
+            // Jika diklik lagi, hapus filternya (toggle off)
+            query.delete('min_price');
+            query.delete('max_price');
+        } else {
+            // Pasang filter baru
+            if (min !== null) query.set('min_price', min.toString()); else query.delete('min_price');
+            if (max !== null) query.set('max_price', max.toString()); else query.delete('max_price');
+        }
+
+        const qs = query.toString();
+        const url = qs ? `${base}?${qs}` : base;
+        router.get(url, {}, { preserveState: true, preserveScroll: true });
+    };
+
     // ACTION: Handle klik pada checkbox Category
     const handleCategoryCheck = (slug: string) => {
         const isActive = (activeSub ?? null) === slug;
@@ -73,14 +105,30 @@ export default function CategoryShow({ category, subCategories, activeSub, filte
                 <aside className="min-w-0 h-fit rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
                     <h2 className="mb-6 text-xl font-bold text-[#0ea5e9]">Filter by</h2>
 
-                    {/* Filter Price (Visual/Dummy Sesuai Request) */}
+                    {/* Filter Price (Berfungsi) */}
                     <div className="mb-8">
                         <h3 className="mb-3 text-sm font-semibold text-[#0ea5e9]">Price</h3>
-                        <div className="space-y-2">
-                            <input type="text" readOnly value="0 - 75RB" className="w-full cursor-not-allowed rounded-md border border-gray-200 px-3 py-2 text-xs text-gray-400 bg-gray-50 outline-none" />
-                            <input type="text" readOnly value="75RB - 150RB" className="w-full cursor-not-allowed rounded-md border border-gray-200 px-3 py-2 text-xs text-gray-400 bg-gray-50 outline-none" />
-                            <input type="text" readOnly value="150RB - 200RB" className="w-full cursor-not-allowed rounded-md border border-gray-200 px-3 py-2 text-xs text-gray-400 bg-gray-50 outline-none" />
-                            <input type="text" readOnly value="More than 200RB" className="w-full cursor-not-allowed rounded-md border border-gray-200 px-3 py-2 text-xs text-gray-400 bg-gray-50 outline-none" />
+                        <div className="flex flex-col gap-2">
+                            {priceRanges.map((range, idx) => {
+                                // Cek apakah filter saat ini sama persis dengan rentang tombol ini
+                                const isActive = filters.min_price == range.min && filters.max_price == range.max;
+
+                                return (
+                                    <button
+                                        key={idx}
+                                        type="button"
+                                        onClick={() => handlePriceCheck(range.min, range.max)}
+                                        className={cn(
+                                            "w-full rounded-md border px-3 py-2 text-left text-xs outline-none transition-colors",
+                                            isActive
+                                                ? "border-[#0ea5e9] bg-[#e0f2fe] font-bold text-[#0ea5e9]" // Gaya saat aktif
+                                                : "border-gray-200 bg-white text-gray-500 hover:border-[#0ea5e9] hover:text-[#0ea5e9]" // Gaya bawaan
+                                        )}
+                                    >
+                                        {range.label}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
